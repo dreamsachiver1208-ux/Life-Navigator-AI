@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Navigator AI - Your Personal Strategic Guide</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons for premium visual graphics -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js for premium responsive simulations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- NAVIGATION SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">L</div>
+        <div class="logo-text">Navigator AI</div>
+      </div>
+      
+      <nav>
+        <ul class="nav-list">
+          <li class="nav-item active" data-target="dashboard-view" id="nav-dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Dashboard</span>
+          </li>
+          <li class="nav-item" data-target="wizard-view" id="nav-wizard">
+            <i data-lucide="compass"></i>
+            <span>Goal Strategist</span>
+          </li>
+          <li class="nav-item" data-target="roadmap-view" id="nav-roadmap">
+            <i data-lucide="milestone"></i>
+            <span>Roadmap Board</span>
+          </li>
+          <li class="nav-item" data-target="simulation-view" id="nav-simulation">
+            <i data-lucide="eye"></i>
+            <span>Future Simulator</span>
+          </li>
+          <li class="nav-item" data-target="nexus-view" id="nav-nexus">
+            <i data-lucide="cpu"></i>
+            <span>Agent Nexus</span>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-profile-summary">
+        <div class="avatar-ring">
+          <div class="avatar">👤</div>
+        </div>
+        <div class="profile-info">
+          <span class="profile-name">Navigator User</span>
+          <span class="profile-role">Explorer Route</span>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport">
+      
+      <!-- TOP STATUS BAR -->
+      <header class="top-bar">
+        <h1 class="view-title" id="bar-title">Dashboard</h1>
+        <div class="goal-badge" id="active-goal-badge" style="display: none;">
+          <i data-lucide="target"></i>
+          <span id="active-goal-name">No Active Goal</span>
+        </div>
+      </header>
+      
+      <!-- VIEW 1: DASHBOARD (OVERVIEW) -->
+      <section id="dashboard-view" class="content-panel active">
+        
+        <!-- Welcome banner if no goal is configured -->
+        <div class="no-goal-overlay" id="dashboard-empty-state">
+          <div class="no-goal-icon">🧭</div>
+          <h2 class="no-goal-title">Design Your Journey</h2>
+          <p class="no-goal-desc">You don't have an active roadmap configured. Let our simulated multi-agent system analyze your goal, constraints, and available time to construct your adaptive strategy.</p>
+          <button class="btn-primary" onclick="switchView('wizard-view')">
+            <i data-lucide="sparkles"></i>
+            <span>Initialize Strategy Wizard</span>
+          </button>
+        </div>
+        
+        <!-- Active Dashboard Grid -->
+        <div id="dashboard-active-state" style="display: none;" class="dashboard-grid">
+          
+          <!-- LEFT SIDE: PROGRESS & RECOMMENDATIONS -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            
+            <!-- Statistics summary -->
+            <div class="dashboard-stats">
+              <div class="glass-card stat-card">
+                <div class="stat-icon" style="background: rgba(0, 240, 255, 0.1); color: var(--color-cyan);">
+                  <i data-lucide="percent"></i>
+                </div>
+                <div class="stat-details">
+                  <span class="stat-val" id="stat-progress">0%</span>
+                  <span class="stat-lbl">Completion</span>
+                </div>
+              </div>
+              <div class="glass-card stat-card">
+                <div class="stat-icon" style="background: rgba(181, 95, 230, 0.1); color: var(--color-purple);">
+                  <i data-lucide="zap"></i>
+                </div>
+                <div class="stat-details">
+                  <span class="stat-val" id="stat-velocity">100%</span>
+                  <span class="stat-lbl">Velocity Rating</span>
+                </div>
+              </div>
+              <div class="glass-card stat-card">
+                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--color-emerald);">
+                  <i data-lucide="flame"></i>
+                </div>
+                <div class="stat-details">
+                  <span class="stat-val" id="stat-streak">3 Days</span>
+                  <span class="stat-lbl">Habit Streak</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- NEXT BEST ACTION PANEL -->
+            <div class="glass-card recommender-card" id="recommender-panel">
+              <div class="recommender-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <i data-lucide="shield-alert" style="color: var(--color-amber);"></i>
+                  <h3 style="font-size: 16px; font-weight: 600;">Today's Next Best Action</h3>
+                </div>
+                
+                <!-- Energy Adjuster -->
+                <div class="energy-buttons-bar">
+                  <button class="energy-btn" onclick="adjustEnergy('Low')" id="energy-low">Low Energy</button>
+                  <button class="energy-btn active" onclick="adjustEnergy('Medium')" id="energy-medium">Medium</button>
+                  <button class="energy-btn" onclick="adjustEnergy('High')" id="energy-high">High Energy</button>
+                </div>
+              </div>
+              
+              <div class="action-card-name" id="action-title">Complete Basic Tutorial Module</div>
+              <p class="action-card-reason" id="action-reason">This action establishes the base foundation for the active milestone sprint.</p>
+              
+              <div class="action-card-meta">
+                <span><i data-lucide="clock" style="width: 13px; vertical-align: middle; margin-right: 4px;"></i> Est. Time: <strong id="action-time">45 mins</strong></span>
+                <span><i data-lucide="trending-up" style="width: 13px; vertical-align: middle; margin-right: 4px;"></i> Priority: <strong>Urgent</strong></span>
+              </div>
+              
+              <div style="margin-top: 20px; display: flex; gap: 12px;">
+                <button class="btn-primary" style="padding: 10px 20px; font-size: 13px;" onclick="completeRecommendedAction()">
+                  <i data-lucide="check"></i>
+                  <span>Mark Done</span>
+                </button>
+                <button class="btn-secondary" style="padding: 10px 20px; font-size: 13px;" onclick="simulateSlackDay()">
+                  <i data-lucide="alert-triangle"></i>
+                  <span>Simulate Missing Today</span>
+                </button>
+              </div>
+            </div>
+            
+            <!-- GOAL DETAILS & ACCOUNTABILITY SUMMARY -->
+            <div class="glass-card">
+              <h3 style="margin-bottom: 16px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="calendar"></i>
+                <span>Journey Summary</span>
+              </h3>
+              <p id="dashboard-goal-desc" style="color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 16px;">
+                Learning full-stack web development from scratch.
+              </p>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px;">
+                <span>Total Commitment: <strong id="dash-meta-hours">150 hrs</strong></span>
+                <span>Weekly Budget: <strong id="dash-meta-budget">10 hrs/wk</strong></span>
+                <span>Est. Duration: <strong id="dash-meta-weeks">15 wks</strong></span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- RIGHT SIDE: ACTIVE ROADMAP MINI-VIEW -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px;">
+            <h3 style="font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px;">
+              <i data-lucide="route"></i>
+              <span>Milestone Roadmap</span>
+            </h3>
+            
+            <div class="milestone-sidebar-list" id="mini-roadmap-list">
+              <!-- Dynamically populated -->
+            </div>
+            
+            <button class="btn-secondary" style="width: 100%; margin-top: auto;" onclick="switchView('roadmap-view')">
+              <span>View Interactive Roadmap Board</span>
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- VIEW 2: GOAL STRATEGIST (WIZARD) -->
+      <section id="wizard-view" class="content-panel">
+        <div class="wizard-container glass-card">
+          <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="sparkles" style="color: var(--color-cyan);"></i>
+            <span>Goal Discovery Wizard</span>
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 13px; line-height: 1.4; margin-bottom: 24px;">
+            Fill in the parameters below. The Multi-Agent Orchestrator will analyze the goal profile, evaluate risks, and map out a localized adaptive study/work program.
+          </p>
+          
+          <div class="form-group">
+            <label>Select a Curated Template (Optional)</label>
+            <div class="template-grid">
+              <div class="template-card" id="temp-saas" onclick="selectTemplate('saas')">
+                <div class="template-header">
+                  <span class="template-title">Indie SaaS Product</span>
+                  <span class="template-cat">Business</span>
+                </div>
+                <p class="template-desc">Build, billing integration, early adopter beta testing, and Product Hunt launching.</p>
+              </div>
+              <div class="template-card" id="temp-fullstack" onclick="selectTemplate('fullstack')">
+                <div class="template-header">
+                  <span class="template-title">Full-Stack Dev</span>
+                  <span class="template-cat">Career</span>
+                </div>
+                <p class="template-desc">Master Frontend, Backend APIs, databases, deploying, and building portfolios.</p>
+              </div>
+              <div class="template-card" id="temp-marathon" onclick="selectTemplate('marathon')">
+                <div class="template-header">
+                  <span class="template-title">Marathon Runner</span>
+                  <span class="template-cat">Fitness</span>
+                </div>
+                <p class="template-desc">Aerobic capacity, endurance miles ramp-up, peak training, and race day taper.</p>
+              </div>
+              <div class="template-card" id="temp-cfa" onclick="selectTemplate('cfa')">
+                <div class="template-header">
+                  <span class="template-title">CFA Level 1 Exam</span>
+                  <span class="template-cat">Finance</span>
+                </div>
+                <p class="template-desc">Quant tools, ethics, financial reporting, valuation, and practice mock tests.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="custom-goal-text">What is your long-term goal?</label>
+            <textarea id="custom-goal-text" rows="3" placeholder="Describe what you want to accomplish in detail..."></textarea>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="skill-level">Current Skill Level</label>
+              <select id="skill-level">
+                <option value="Beginner">Beginner (No experience)</option>
+                <option value="Intermediate">Intermediate (Some foundation)</option>
+                <option value="Advanced">Advanced (Extensive skills)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="goal-category">Category</label>
+              <select id="goal-category">
+                <option value="Career Development">Career Development</option>
+                <option value="Business">Business & Startups</option>
+                <option value="Health & Fitness">Health & Fitness</option>
+                <option value="Education">Education & Exams</option>
+                <option value="Creative">Creative & Personal</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="slider-group">
+              <div class="slider-labels">
+                <span>Weekly Time Investment</span>
+                <span class="slider-val-highlight"><span id="slider-hours-val">10</span> hours / week</span>
+              </div>
+              <input type="range" id="weekly-hours" min="2" max="25" value="10" oninput="document.getElementById('slider-hours-val').innerText = this.value">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="constraints-text">Obstacles & Constraints (e.g., Working full time, Rushed timeline)</label>
+            <input type="text" id="constraints-text" placeholder="e.g. limited evening time, need to pass in 3 months">
+          </div>
+          
+          <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+            <button class="btn-primary" onclick="generateGoalRoadmap()">
+              <i data-lucide="cog"></i>
+              <span>Generate Roadmap Strategy</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- VIEW 3: ROADMAP BOARD (TASK TRACKER) -->
+      <section id="roadmap-view" class="content-panel">
+        <div class="no-goal-overlay" id="roadmap-empty-state">
+          <div class="no-goal-icon">🧭</div>
+          <h2 class="no-goal-title">Active Roadmap Awaiting</h2>
+          <p class="no-goal-desc">Generate a roadmap using the Strategist Wizard to populate the task board.</p>
+        </div>
+        
+        <div id="roadmap-active-state" style="display: none;" class="progress-layout">
+          
+          <!-- LEFT SIDE: MILESTONES VERTICAL BAR -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px;">
+            <h3 style="font-size: 15px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px;">
+              Journey Milestones
+            </h3>
+            <div class="milestone-sidebar-list" id="board-milestone-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          
+          <!-- RIGHT SIDE: ACTIVE WEEKLY TASK CHECKLIST -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px;">
+              <div>
+                <h3 id="board-active-milestone-title" style="font-size: 16px; font-weight: 700;">Milestone Core Development</h3>
+                <span id="board-active-milestone-desc" style="font-size: 12px; color: var(--text-secondary);">Week distribution planning</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted);">
+                Week: <strong id="board-active-week-val" style="color: var(--color-cyan);">1</strong>
+              </div>
+            </div>
+            
+            <div class="task-list-view" id="board-tasks-list">
+              <!-- Weekly lists containing checkboxes -->
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- VIEW 4: FUTURE SIMULATION -->
+      <section id="simulation-view" class="content-panel">
+        <div class="no-goal-overlay" id="simulation-empty-state">
+          <div class="no-goal-icon">🔮</div>
+          <h2 class="no-goal-title">Future Projection System</h2>
+          <p class="no-goal-desc">Active target parameters required. Establish a roadmap program first.</p>
+        </div>
+        
+        <div id="simulation-active-state" style="display: none;" class="simulator-layout">
+          
+          <!-- LEFT CONTROLS -->
+          <div class="sim-controls-panel">
+            <div class="glass-card">
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 16px;">Simulation Settings</h3>
+              
+              <div class="form-group" style="margin-bottom: 24px;">
+                <div class="slider-group">
+                  <div class="slider-labels">
+                    <span>Alternative Budget</span>
+                    <span class="slider-val-highlight"><span id="sim-hours-val">12</span> hrs/wk</span>
+                  </div>
+                  <input type="range" id="sim-weekly-hours" min="1" max="25" value="12" oninput="updateSimulationSliders(this.value)">
+                </div>
+              </div>
+              
+              <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; display: flex; flex-direction: column; gap: 12px;">
+                <div>
+                  <i data-lucide="info" style="color: var(--color-cyan); width: 14px; vertical-align: text-bottom; margin-right: 4px;"></i>
+                  <strong>What is this simulation?</strong>
+                </div>
+                <p>The Future Simulation Agent projects your journey timeline by running a Monte Carlo-like risk check. It calculates how hours per week impact your likelihood of burnout and abandonment.</p>
+              </div>
+            </div>
+            
+            <button class="btn-primary" style="width: 100%;" onclick="saveActiveSimulationScenario()">
+              <i data-lucide="plus"></i>
+              <span>Save Scenario Comparison</span>
+            </button>
+          </div>
+          
+          <!-- RIGHT GRAPH AND SCENARIO LIST -->
+          <div class="sim-chart-panel">
+            <div class="scenario-matrix" id="sim-scenarios-grid">
+              <!-- Scenario cards filled dynamically -->
+            </div>
+            
+            <div class="glass-card sim-chart-container">
+              <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 16px;">Progression Curves: Target vs. Actual Pacing</h3>
+              <canvas id="projectionChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- VIEW 5: AGENT NEXUS & DIRECTIVES -->
+      <section id="nexus-view" class="content-panel">
+        <div class="agent-nexus-container">
+          
+          <!-- INTERACTIVE TOPOLOGY GRAPH -->
+          <div class="agent-topology">
+            <div class="agent-node" id="node-analysis" onclick="selectAgentNode('analysis')">
+              <div class="agent-avatar-container" style="color: var(--color-cyan); border-color: var(--color-cyan);">🔍</div>
+              <span class="agent-name-lbl">Chronos</span>
+              <span class="agent-role-lbl">Goal Analyst</span>
+            </div>
+            <div class="agent-node" id="node-planning" onclick="selectAgentNode('planning')">
+              <div class="agent-avatar-container" style="color: var(--color-purple); border-color: var(--color-purple);">🧭</div>
+              <span class="agent-name-lbl">Atlas</span>
+              <span class="agent-role-lbl">Strategic Planner</span>
+            </div>
+            <div class="agent-node" id="node-progress" onclick="selectAgentNode('progress')">
+              <div class="agent-avatar-container" style="color: var(--color-emerald); border-color: var(--color-emerald);">🛡️</div>
+              <span class="agent-name-lbl">Aegis</span>
+              <span class="agent-role-lbl">Progress Evaluator</span>
+            </div>
+            <div class="agent-node" id="node-recommendation" onclick="selectAgentNode('recommendation')">
+              <div class="agent-avatar-container" style="color: var(--color-amber); border-color: var(--color-amber);">⚡</div>
+              <span class="agent-name-lbl">Vesta</span>
+              <span class="agent-role-lbl">Recommender</span>
+            </div>
+            <div class="agent-node" id="node-simulation" onclick="selectAgentNode('simulation')">
+              <div class="agent-avatar-container" style="color: var(--color-rose); border-color: var(--color-rose);">🔮</div>
+              <span class="agent-name-lbl">Zephyr</span>
+              <span class="agent-role-lbl">Simulator</span>
+            </div>
+          </div>
+          
+          <!-- TERMINAL CONSOLE -->
+          <div class="agent-terminal">
+            <div class="terminal-header">
+              <div class="terminal-buttons">
+                <div class="terminal-btn red"></div>
+                <div class="terminal-btn yellow"></div>
+                <div class="terminal-btn green"></div>
+              </div>
+              <div class="terminal-title" id="terminal-active-title">AGENT INTER-COMMUNICATION BUS</div>
+              <div style="width: 30px;"></div>
+            </div>
+            
+            <div class="terminal-logs" id="terminal-log-output">
+              <div class="log-line">
+                <span class="log-time">[18:50:00]</span>
+                <span class="log-agent" style="color: var(--color-cyan);">System</span>
+                <span class="log-text">Life Navigator Agent Nexus online. Awaiting goal discovery coordinates.</span>
+              </div>
+            </div>
+            
+            <div class="terminal-input-row">
+              <span class="terminal-prompt-symbol">&gt;</span>
+              <input type="text" class="terminal-cmd-input" id="terminal-input" placeholder="Type a directive (e.g. /optimize_timeline, /burnout_mitigation, /scope_reduction)..." onkeydown="handleTerminalCommand(event)">
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- SCRIPT BINDINGS -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
