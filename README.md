@@ -13,6 +13,10 @@ Unlike standard chatbots or simple task managers, it is structured as a **Multi-
 
 ---
 
+🌐 **Live Demo**
+https://lifenaviatoragent.netlify.app/
+
+
 ## ⚠️ Problem Statement
 Millions of individuals set long-term goals (learning full-stack development, launching a startup, training for a marathon) but struggle to sustain consistency because of:
 * **Information Overload** – Not knowing the logical sequence of topics.
@@ -79,8 +83,6 @@ Inspect the active logs of the inter-agent communication bus. Users can enter di
 * `/scope_reduction` - Excises secondary modules to fit constraints.
 
 ---
-🌐 **Live Demo**
-https://lifenaviatoragent.netlify.app/
 
 ## 💻 Local Setup and Running
 
